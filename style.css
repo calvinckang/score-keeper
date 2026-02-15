@@ -16,6 +16,11 @@
     --color-black-transparent-10: rgba(0, 0, 0, 0.1);
     --color-shadow-glass: rgba(67, 70, 88, 0.06);
     
+    /* Dark mode colors */
+    --color-dark-blue-900: #0a1929;
+    --color-dark-blue-800: #0f2744;
+    --color-dark-blue-700: #1a3a5c;
+    
     /* Semantic Color Tokens (Tier 2 - Purpose-based) */
     --color-background-gradient-start: var(--color-blue-400);
     --color-background-gradient-mid: var(--color-blue-300);
@@ -74,8 +79,8 @@
     --opacity-cloud: 0.6;
     
     /* Size Tokens */
-    --size-bird-width: 44px;
-    --size-bird-height: 33px;
+    --size-bird-width: 53px;
+    --size-bird-height: 40px;
     --size-explosion: 60px;
     --size-feather-width: 5px;
     --size-feather-height: 8px;
@@ -102,6 +107,191 @@ body {
     overflow: hidden;
     position: relative;
     padding: var(--spacing-4xl) var(--spacing-xl);
+    transition: background 0.5s ease;
+}
+
+body.dark-mode {
+    background: linear-gradient(to bottom, var(--color-dark-blue-900) 0%, var(--color-dark-blue-800) 50%, var(--color-dark-blue-700) 100%);
+}
+
+body.dark-mode .page-title {
+    color: #e3f2fd;
+    text-shadow: 
+        4px 4px 0px rgba(30, 136, 229, 0.4);
+}
+
+body.dark-mode section {
+    background: linear-gradient(145deg, rgba(15, 39, 68, 0.6) 0%, rgba(26, 58, 92, 0.7) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(100, 181, 246, 0.1);
+    border-top: 2px solid rgba(100, 181, 246, 0.1);
+    border-left: 2px solid rgba(100, 181, 246, 0.1);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        0 8px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode p {
+    color: #e3f2fd;
+}
+
+body.dark-mode .blue-bird-title {
+    color: #64b5f6;
+}
+
+body.dark-mode .red-bird-title {
+    color: #ef5350;
+}
+
+body.dark-mode .blue-btn {
+    background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 50%, #1565c0 100%);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.25),
+        0 6px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .blue-btn:hover {
+    background: linear-gradient(135deg, #1e88e5 0%, #1565c0 50%, #0d47a1 100%);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.3),
+        0 8px 16px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .red-btn {
+    background: linear-gradient(135deg, #ef5350 0%, #e53935 50%, #c62828 100%);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.25),
+        0 6px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .red-btn:hover {
+    background: linear-gradient(135deg, #e53935 0%, #c62828 50%, #b71c1c 100%);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.3),
+        0 8px 16px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .decrement-btn {
+    background: linear-gradient(135deg, #546e7a 0%, #455a64 50%, #37474f 100%);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.25),
+        0 6px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .decrement-btn:hover {
+    background: linear-gradient(135deg, #455a64 0%, #37474f 50%, #263238 100%);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.3),
+        0 8px 16px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .reset-button {
+    background: linear-gradient(135deg, #546e7a 0%, #455a64 50%, #37474f 100%);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.25),
+        0 8px 16px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .reset-button:hover {
+    background: linear-gradient(135deg, #455a64 0%, #37474f 50%, #263238 100%);
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        0 10px 20px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .cloud {
+    opacity: 0.4;
+}
+
+/* Theme Toggle Styles */
+.theme-toggle-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.theme-toggle {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.theme-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, #90caf9 0%, #64b5f6 50%, #42a5f5 100%);
+    border-radius: 30px;
+    transition: all 0.3s;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.toggle-slider:before {
+    content: "🌞";
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle input:checked + .toggle-slider {
+    background: linear-gradient(180deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+}
+
+.theme-toggle input:checked + .toggle-slider:before {
+    content: "🌚";
+    transform: translateY(30px);
+}
+
+.theme-toggle:hover .toggle-slider {
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.2),
+        0 6px 12px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
 }
 
 #clouds-container {
@@ -130,7 +320,7 @@ body {
     color: var(--color-title-main);
     text-shadow: 
         4px 4px 0px var(--color-title-shadow);
-    margin: 0 0 var(--spacing-xl) 0;
+    margin: 0 0 var(--spacing-3xl) 0;
     position: relative;
     z-index: 1;
     text-align: center;
@@ -316,7 +506,7 @@ button:active {
 .reset-button {
     position: relative;
     z-index: 1;
-    margin-top: var(--spacing-xl);
+    margin-top: var(--spacing-3xl);
     padding: 0.75rem var(--spacing-xl);
     font-size: 1.375rem;
     background: linear-gradient(135deg, #78909c 0%, #607d8b 50%, #546e7a 100%);

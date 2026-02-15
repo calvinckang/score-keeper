@@ -1,6 +1,35 @@
 const scoreA = document.getElementById('score-a');
 const scoreB = document.getElementById('score-b');
 const STORAGE_KEY = 'scoreKeeper';
+const THEME_STORAGE_KEY = 'scoreKeeperTheme';
+
+// Theme Toggle System
+const themeToggle = document.getElementById('theme-toggle-checkbox');
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.checked = true;
+    }
+}
+
+function saveTheme(isDark) {
+    localStorage.setItem(THEME_STORAGE_KEY, isDark ? 'dark' : 'light');
+}
+
+themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+        document.body.classList.add('dark-mode');
+        saveTheme(true);
+    } else {
+        document.body.classList.remove('dark-mode');
+        saveTheme(false);
+    }
+});
+
+// Load theme on page load
+loadTheme();
 
 function saveScores() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
