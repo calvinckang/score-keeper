@@ -4,28 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Score Keeper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="clouds-container"></div>
+    <div id="birds-container"></div>
+    
+    <h1 class="page-title">Birds of a feather</h1>
+    
     <main class="container">
-    <section>
-        <h2>Team A</h2>
-        <p>Score: <span id="score-a">0</span></p>
+    <section class="blue-section">
+        <h2 class="blue-bird-title">Blue bird</h2>
+        <p>Count: <span id="score-a">0</span></p>
         <div class="buttons">
-            <button type="button" id="decrement-a">−</button>
-            <button type="button" id="increment-a">+</button>
+            <button type="button" id="decrement-a" class="decrement-btn">−</button>
+            <button type="button" id="increment-a" class="blue-btn">+</button>
         </div>
     </section>
 
-    <section>
-        <h2>Team B</h2>
-        <p>Score: <span id="score-b">0</span></p>
+    <section class="red-section">
+        <h2 class="red-bird-title">Red bird</h2>
+        <p>Count: <span id="score-b">0</span></p>
         <div class="buttons">
-            <button type="button" id="decrement-b">−</button>
-            <button type="button" id="increment-b">+</button>
+            <button type="button" id="decrement-b" class="decrement-btn">−</button>
+            <button type="button" id="increment-b" class="red-btn">+</button>
         </div>
     </section>
     </main>
+    
+    <button type="button" id="reset-btn" class="reset-button">Reset</button>
 
     <script src="script.js"></script>
 </body>
