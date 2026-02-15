@@ -537,10 +537,185 @@ button:active {
    RESPONSIVE DESIGN
    ============================================ */
 
+@media (max-width: 768px) {
+    body {
+        padding: var(--spacing-xl) var(--spacing-sm);
+    }
+    
+    .page-title {
+        font-size: var(--font-size-3xl);
+        margin: 0 0 var(--spacing-xl) 0;
+        text-shadow: 3px 3px 0px var(--color-title-shadow);
+    }
+    
+    .container {
+        gap: var(--spacing-xl);
+        padding: var(--spacing-md);
+    }
+    
+    section {
+        padding: var(--spacing-md) var(--spacing-lg);
+        min-width: 150px;
+    }
+    
+    h2 {
+        font-size: var(--font-size-lg);
+        margin: 0 0 var(--spacing-xs) 0;
+    }
+    
+    p {
+        font-size: var(--font-size-xl);
+        margin: 0 0 var(--spacing-sm) 0;
+    }
+    
+    .blue-btn,
+    .red-btn,
+    .decrement-btn {
+        width: 42px;
+        height: 42px;
+        font-size: var(--font-size-lg);
+    }
+    
+    .reset-button {
+        margin-top: var(--spacing-xl);
+        padding: 0.5rem var(--spacing-md);
+        font-size: var(--font-size-base);
+    }
+    
+    .theme-toggle-container {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .theme-toggle {
+        width: 26px;
+        height: 52px;
+    }
+    
+    .toggle-slider:before {
+        height: 20px;
+        width: 20px;
+        font-size: 16px;
+    }
+    
+    .theme-toggle input:checked + .toggle-slider:before {
+        transform: translateY(26px);
+    }
+}
+
 @media (max-width: 480px) {
+    body {
+        padding: var(--spacing-md) var(--spacing-xs);
+        padding-top: 50px;
+    }
+    
+    .page-title {
+        font-size: var(--font-size-2xl);
+        margin: 0 0 var(--spacing-md) 0;
+        text-shadow: 2px 2px 0px var(--color-title-shadow);
+        letter-spacing: 1px;
+    }
+    
     .container {
         flex-direction: column;
-        gap: var(--spacing-lg);
+        gap: var(--spacing-md);
+        padding: var(--spacing-sm);
+    }
+    
+    section {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    h2 {
+        font-size: var(--font-size-base);
+        margin: 0 0 var(--spacing-xs) 0;
+    }
+    
+    p {
+        font-size: var(--font-size-lg);
+        margin: 0 0 var(--spacing-xs) 0;
+    }
+    
+    .blue-btn,
+    .red-btn,
+    .decrement-btn {
+        width: 38px;
+        height: 38px;
+        font-size: var(--font-size-base);
+    }
+    
+    .reset-button {
+        margin-top: var(--spacing-md);
+        padding: 0.5rem var(--spacing-md);
+        font-size: var(--font-size-base);
+    }
+    
+    .theme-toggle-container {
+        top: 8px;
+        right: 8px;
+    }
+    
+    .theme-toggle {
+        width: 24px;
+        height: 48px;
+    }
+    
+    .toggle-slider:before {
+        height: 18px;
+        width: 18px;
+        font-size: 14px;
+        left: 3px;
+        top: 3px;
+    }
+    
+    .theme-toggle input:checked + .toggle-slider:before {
+        transform: translateY(24px);
+    }
+}
+
+@media (max-height: 600px) {
+    body {
+        padding: var(--spacing-sm) var(--spacing-sm);
+        padding-top: 40px;
+    }
+    
+    .page-title {
+        font-size: var(--font-size-xl);
+        margin: 0 0 var(--spacing-sm) 0;
+        text-shadow: 2px 2px 0px var(--color-title-shadow);
+    }
+    
+    .container {
+        gap: var(--spacing-sm);
+        padding: var(--spacing-xs);
+    }
+    
+    section {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    h2 {
+        font-size: var(--font-size-base);
+        margin: 0 0 var(--spacing-xs) 0;
+    }
+    
+    p {
+        font-size: var(--font-size-base);
+        margin: 0 0 var(--spacing-xs) 0;
+    }
+    
+    .blue-btn,
+    .red-btn,
+    .decrement-btn {
+        width: 36px;
+        height: 36px;
+        font-size: var(--font-size-base);
+    }
+    
+    .reset-button {
+        margin-top: var(--spacing-sm);
+        padding: 0.4rem var(--spacing-sm);
+        font-size: 0.9rem;
     }
 }
 
