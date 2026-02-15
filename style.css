@@ -1,3 +1,7 @@
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+
 :root {
     /* Base Color Tokens (Tier 1 - Primitives) */
     --color-blue-100: #A8D8F0;
@@ -13,10 +17,8 @@
     --color-gray-900: #111;
     --color-orange-500: #FFA500;
     --color-white: #fff;
-    --color-black-transparent-10: rgba(0, 0, 0, 0.1);
-    --color-shadow-glass: rgba(67, 70, 88, 0.06);
     
-    /* Dark mode colors */
+    /* Dark Mode Colors */
     --color-dark-blue-900: #0a1929;
     --color-dark-blue-800: #0f2744;
     --color-dark-blue-700: #1a3a5c;
@@ -37,7 +39,6 @@
     --color-neutral-hover: var(--color-gray-500);
     --color-explosion: var(--color-orange-500);
     --color-surface: var(--color-white);
-    --color-shadow: var(--color-black-transparent-10);
     
     /* Spacing Tokens */
     --spacing-xs: 0.5rem;
@@ -54,14 +55,24 @@
     --radius-md: 12px;
     --radius-lg: 24px;
     --radius-full: 99px;
+    --radius-circle: 50%;
     
     /* Shadow Tokens */
-    --shadow-default: 0 2px 8px var(--color-shadow);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 3px 6px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 4px 8px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.3);
+    --shadow-active: 0 1px 2px rgba(0, 0, 0, 0.15);
+    --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(0, 0, 0, 0.1);
+    --shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    --shadow-inset-depth: inset 0 -3px 0 rgba(0, 0, 0, 0.25);
     
     /* Font Size Tokens */
     --font-size-base: 1rem;
     --font-size-lg: 1.1rem;
     --font-size-xl: 1.25rem;
+    --font-size-btn: 1.375rem;
+    --font-size-btn-lg: 1.5625rem;
     --font-size-2xl: 2rem;
     --font-size-3xl: 2.5rem;
     --font-size-4xl: 3.5rem;
@@ -74,11 +85,17 @@
     /* Font Family Tokens */
     --font-family-playful: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
     --font-family-title: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+    --font-family-system: Arial, sans-serif;
     
     /* Opacity Tokens */
     --opacity-cloud: 0.6;
+    --opacity-cloud-dark: 0.4;
     
     /* Size Tokens */
+    --size-btn-circle: 48px;
+    --size-toggle-width: 30px;
+    --size-toggle-height: 60px;
+    --size-toggle-thumb: 24px;
     --size-bird-width: 53px;
     --size-bird-height: 40px;
     --size-explosion: 60px;
@@ -88,8 +105,13 @@
     
     /* Transition Tokens */
     --transition-default: 0.2s;
-    --transition-fast: 0.1s;
+    --transition-medium: 0.3s;
+    --transition-slow: 0.5s;
 }
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
 
 * {
     box-sizing: border-box;
@@ -107,8 +129,12 @@ body {
     overflow: hidden;
     position: relative;
     padding: var(--spacing-4xl) var(--spacing-xl);
-    transition: background 0.5s ease;
+    transition: background var(--transition-slow) ease;
 }
+
+/* ============================================
+   DARK MODE THEME
+   ============================================ */
 
 body.dark-mode {
     background: linear-gradient(to bottom, var(--color-dark-blue-900) 0%, var(--color-dark-blue-800) 50%, var(--color-dark-blue-700) 100%);
@@ -116,8 +142,7 @@ body.dark-mode {
 
 body.dark-mode .page-title {
     color: #e3f2fd;
-    text-shadow: 
-        4px 4px 0px rgba(30, 136, 229, 0.4);
+    text-shadow: 4px 4px 0px rgba(30, 136, 229, 0.4);
 }
 
 body.dark-mode section {
@@ -125,8 +150,6 @@ body.dark-mode section {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 2px solid rgba(100, 181, 246, 0.1);
-    border-top: 2px solid rgba(100, 181, 246, 0.1);
-    border-left: 2px solid rgba(100, 181, 246, 0.1);
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.3),
         0 8px 16px rgba(0, 0, 0, 0.4),
@@ -146,13 +169,14 @@ body.dark-mode .red-bird-title {
     color: #ef5350;
 }
 
+/* Dark Mode Button Styles */
 body.dark-mode .blue-btn {
     background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 50%, #1565c0 100%);
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.25),
         0 6px 12px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+        var(--shadow-inset-highlight),
+        var(--shadow-inset-depth);
 }
 
 body.dark-mode .blue-btn:hover {
@@ -160,8 +184,8 @@ body.dark-mode .blue-btn:hover {
     box-shadow: 
         0 3px 6px rgba(0, 0, 0, 0.3),
         0 8px 16px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+        var(--shadow-inset-highlight),
+        var(--shadow-inset-depth);
 }
 
 body.dark-mode .red-btn {
@@ -169,8 +193,8 @@ body.dark-mode .red-btn {
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.25),
         0 6px 12px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+        var(--shadow-inset-highlight),
+        var(--shadow-inset-depth);
 }
 
 body.dark-mode .red-btn:hover {
@@ -178,8 +202,8 @@ body.dark-mode .red-btn:hover {
     box-shadow: 
         0 3px 6px rgba(0, 0, 0, 0.3),
         0 8px 16px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+        var(--shadow-inset-highlight),
+        var(--shadow-inset-depth);
 }
 
 body.dark-mode .decrement-btn {
@@ -188,7 +212,7 @@ body.dark-mode .decrement-btn {
         0 2px 4px rgba(0, 0, 0, 0.25),
         0 6px 12px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+        var(--shadow-inset-depth);
 }
 
 body.dark-mode .decrement-btn:hover {
@@ -197,7 +221,7 @@ body.dark-mode .decrement-btn:hover {
         0 3px 6px rgba(0, 0, 0, 0.3),
         0 8px 16px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+        var(--shadow-inset-depth);
 }
 
 body.dark-mode .reset-button {
@@ -206,7 +230,7 @@ body.dark-mode .reset-button {
         0 3px 6px rgba(0, 0, 0, 0.25),
         0 8px 16px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+        var(--shadow-inset-depth);
 }
 
 body.dark-mode .reset-button:hover {
@@ -215,14 +239,17 @@ body.dark-mode .reset-button:hover {
         0 4px 8px rgba(0, 0, 0, 0.3),
         0 10px 20px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+        var(--shadow-inset-depth);
 }
 
 body.dark-mode .cloud {
-    opacity: 0.4;
+    opacity: var(--opacity-cloud-dark);
 }
 
-/* Theme Toggle Styles */
+/* ============================================
+   THEME TOGGLE COMPONENT
+   ============================================ */
+
 .theme-toggle-container {
     position: fixed;
     top: 20px;
@@ -233,8 +260,8 @@ body.dark-mode .cloud {
 .theme-toggle {
     position: relative;
     display: inline-block;
-    width: 30px;
-    height: 60px;
+    width: var(--size-toggle-width);
+    height: var(--size-toggle-height);
     cursor: pointer;
 }
 
@@ -251,8 +278,8 @@ body.dark-mode .cloud {
     right: 0;
     bottom: 0;
     background: linear-gradient(180deg, #90caf9 0%, #64b5f6 50%, #42a5f5 100%);
-    border-radius: 30px;
-    transition: all 0.3s;
+    border-radius: var(--size-toggle-width);
+    transition: all var(--transition-medium);
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.15),
         0 4px 8px rgba(0, 0, 0, 0.1),
@@ -263,13 +290,13 @@ body.dark-mode .cloud {
 .toggle-slider:before {
     content: "🌞";
     position: absolute;
-    height: 24px;
-    width: 24px;
+    height: var(--size-toggle-thumb);
+    width: var(--size-toggle-thumb);
     left: 3px;
     top: 3px;
     background: white;
-    border-radius: 50%;
-    transition: all 0.3s;
+    border-radius: var(--radius-circle);
+    transition: all var(--transition-medium);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -294,16 +321,11 @@ body.dark-mode .cloud {
         inset 0 -2px 0 rgba(0, 0, 0, 0.2);
 }
 
-#clouds-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-}
+/* ============================================
+   LAYOUT COMPONENTS
+   ============================================ */
 
+#clouds-container,
 #birds-container {
     position: fixed;
     top: 0;
@@ -318,8 +340,7 @@ body.dark-mode .cloud {
     font-size: var(--font-size-4xl);
     font-weight: var(--font-weight-black);
     color: var(--color-title-main);
-    text-shadow: 
-        4px 4px 0px var(--color-title-shadow);
+    text-shadow: 4px 4px 0px var(--color-title-shadow);
     margin: 0 0 var(--spacing-3xl) 0;
     position: relative;
     z-index: 1;
@@ -343,10 +364,8 @@ section {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 2px solid rgba(255, 255, 255, 0.6);
-    border-top: 2px solid rgba(255, 255, 255, 0.6);
-    border-left: 2px solid rgba(255, 255, 255, 0.6);
     padding: var(--spacing-xl) var(--spacing-2xl);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.08),
         0 8px 16px rgba(0, 0, 0, 0.12),
@@ -355,15 +374,6 @@ section {
     text-align: center;
     min-width: 180px;
     position: relative;
-}
-
-.red-section {
-    border-radius: var(--radius-lg);
-}
-
-.blue-section {
-    font-size: 24px;
-    border-radius: var(--radius-lg);
 }
 
 h2 {
@@ -393,9 +403,14 @@ section .buttons {
     justify-content: center;
 }
 
+/* ============================================
+   BUTTON COMPONENTS
+   ============================================ */
+
+/* Base Button Styles */
 button {
     padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: 1.5625rem;
+    font-size: var(--font-size-btn-lg);
     font-weight: var(--font-weight-semibold);
     font-family: var(--font-family-playful);
     border: none;
@@ -405,36 +420,41 @@ button {
     transition: all var(--transition-default);
     position: relative;
     box-shadow: 
-        0 1px 2px rgba(0, 0, 0, 0.1),
-        0 4px 8px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        var(--shadow-sm),
+        var(--shadow-inset-highlight),
         inset 0 -2px 0 rgba(0, 0, 0, 0.2);
 }
 
 button:active {
     transform: translateY(2px);
     box-shadow: 
-        0 1px 2px rgba(0, 0, 0, 0.15),
-        inset 0 2px 4px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(0, 0, 0, 0.1);
+        var(--shadow-active),
+        var(--shadow-inset);
 }
 
-.blue-btn {
-    background: linear-gradient(135deg, #2196f3 0%, #1976d2 50%, #1565c0 100%);
-    font-family: Arial, sans-serif;
-    font-size: 1.375rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+/* Circle Button Shared Styles */
+.blue-btn,
+.red-btn,
+.decrement-btn {
+    font-family: var(--font-family-system);
+    font-size: var(--font-size-btn);
+    width: var(--size-btn-circle);
+    height: var(--size-btn-circle);
+    border-radius: var(--radius-circle);
     padding: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Blue Button (Increment) */
+.blue-btn {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 50%, #1565c0 100%);
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.15),
         0 6px 12px rgba(30, 136, 229, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+        var(--shadow-inset-depth);
     border: 1px solid rgba(21, 101, 192, 0.5);
 }
 
@@ -444,25 +464,17 @@ button:active {
         0 3px 6px rgba(0, 0, 0, 0.2),
         0 8px 16px rgba(30, 136, 229, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+        var(--shadow-inset-depth);
 }
 
+/* Red Button (Increment) */
 .red-btn {
     background: linear-gradient(135deg, #ef5350 0%, #e53935 50%, #c62828 100%);
-    font-family: Arial, sans-serif;
-    font-size: 1.375rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.15),
         0 6px 12px rgba(230, 57, 70, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+        var(--shadow-inset-depth);
     border: 1px solid rgba(198, 40, 40, 0.5);
 }
 
@@ -472,25 +484,17 @@ button:active {
         0 3px 6px rgba(0, 0, 0, 0.2),
         0 8px 16px rgba(230, 57, 70, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+        var(--shadow-inset-depth);
 }
 
+/* Decrement Button */
 .decrement-btn {
     background: linear-gradient(135deg, #78909c 0%, #607d8b 50%, #546e7a 100%);
-    font-family: Arial, sans-serif;
-    font-size: 1.375rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.15),
         0 6px 12px rgba(100, 116, 139, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+        var(--shadow-inset-depth);
     border: 1px solid rgba(84, 110, 122, 0.5);
 }
 
@@ -500,15 +504,16 @@ button:active {
         0 3px 6px rgba(0, 0, 0, 0.2),
         0 8px 16px rgba(100, 116, 139, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+        var(--shadow-inset-depth);
 }
 
+/* Reset Button */
 .reset-button {
     position: relative;
     z-index: 1;
     margin-top: var(--spacing-3xl);
     padding: 0.75rem var(--spacing-xl);
-    font-size: 1.375rem;
+    font-size: var(--font-size-btn);
     background: linear-gradient(135deg, #78909c 0%, #607d8b 50%, #546e7a 100%);
     border-radius: var(--radius-full);
     letter-spacing: 0.5px;
@@ -516,18 +521,21 @@ button:active {
         0 3px 6px rgba(0, 0, 0, 0.15),
         0 8px 16px rgba(100, 116, 139, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+        var(--shadow-inset-depth);
     border: 1px solid rgba(84, 110, 122, 0.5);
 }
 
 .reset-button:hover {
     background: linear-gradient(135deg, #607d8b 0%, #546e7a 50%, #455a64 100%);
     box-shadow: 
-        0 4px 8px rgba(0, 0, 0, 0.2),
-        0 10px 20px rgba(100, 116, 139, 0.3),
+        var(--shadow-xl),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+        var(--shadow-inset-depth);
 }
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
 
 @media (max-width: 480px) {
     .container {
@@ -536,7 +544,10 @@ button:active {
     }
 }
 
-/* Bird Styles */
+/* ============================================
+   BIRD ANIMATIONS
+   ============================================ */
+
 .bird {
     position: absolute;
     width: var(--size-bird-width);
@@ -550,11 +561,11 @@ button:active {
 }
 
 .bird.flap-down .wing {
-    animation: flapDown 0.3s ease-in-out infinite;
+    animation: flapDown var(--transition-medium) ease-in-out infinite;
 }
 
 .bird.flap-up .wing {
-    animation: flapUp 0.3s ease-in-out infinite;
+    animation: flapUp var(--transition-medium) ease-in-out infinite;
 }
 
 @keyframes flapDown {
@@ -614,7 +625,10 @@ button:active {
     }
 }
 
-/* Cloud Styles */
+/* ============================================
+   CLOUD ANIMATIONS
+   ============================================ */
+
 .cloud {
     position: absolute;
     opacity: var(--opacity-cloud);
@@ -635,7 +649,10 @@ button:active {
     }
 }
 
-/* Explosion and Feather Effects */
+/* ============================================
+   EXPLOSION & FEATHER EFFECTS
+   ============================================ */
+
 .explosion {
     position: absolute;
     width: var(--size-explosion);
@@ -647,7 +664,7 @@ button:active {
     position: absolute;
     width: var(--size-particle);
     height: var(--size-particle);
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: var(--color-explosion);
 }
 
