@@ -492,3 +492,36 @@ function createCloud() {
 for (let i = 0; i < 6; i++) {
     createCloud();
 }
+
+// 3D Tilt Effect for Section Cards
+function init3DTilt() {
+    const sections = document.querySelectorAll('section');
+    
+    sections.forEach(section => {
+        section.addEventListener('mousemove', (e) => {
+            const rect = section.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Calculate percentage position (0 to 1)
+            const xPercent = x / rect.width;
+            const yPercent = y / rect.height;
+            
+            // Calculate tilt angles (max 15 degrees)
+            // Center is 0 degrees, edges are ±15 degrees
+            const tiltX = (yPercent - 0.5) * -30; // Negative for natural tilt
+            const tiltY = (xPercent - 0.5) * 30;
+            
+            // Apply transform
+            section.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        section.addEventListener('mouseleave', () => {
+            // Reset to neutral position
+            section.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+    });
+}
+
+// Initialize 3D tilt effect
+init3DTilt();

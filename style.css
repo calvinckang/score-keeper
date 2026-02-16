@@ -157,6 +157,14 @@ body.dark-mode section {
         inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 
+body.dark-mode section:hover {
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.35),
+        0 16px 32px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
 body.dark-mode p {
     color: #e3f2fd;
 }
@@ -365,7 +373,8 @@ section {
     -webkit-backdrop-filter: blur(8px);
     border: 2px solid rgba(255, 255, 255, 0.6);
     padding: var(--spacing-xl) var(--spacing-2xl);
-    border-radius: var(--radius-lg);
+    /* iOS Squircle Border Radius - smooth continuous curve */
+    border-radius: 18% / 20%;
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.08),
         0 8px 16px rgba(0, 0, 0, 0.12),
@@ -374,6 +383,20 @@ section {
     text-align: center;
     min-width: 180px;
     position: relative;
+    /* 3D Tilt Effect Setup */
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+    transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+section:hover {
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.12),
+        0 12px 24px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
 h2 {
