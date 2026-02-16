@@ -103,6 +103,65 @@ function playExplosion() {
     noise.stop(now + 0.15);
 }
 
+// Dramatic explosion sound for Reset button
+function playBigExplosion() {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    // Create longer noise buffer for bigger explosion
+    const bufferSize = ctx.sampleRate * 0.4; // 400ms
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    
+    // Generate white noise with slower decay
+    for (let i = 0; i < bufferSize; i++) {
+        const decay = Math.pow(1 - (i / bufferSize), 1.5);
+        data[i] = (Math.random() * 2 - 1) * decay;
+    }
+    
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    
+    // Add low-pass filter that sweeps down more dramatically
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(2000, now);
+    filter.frequency.exponentialRampToValueAtTime(150, now + 0.3);
+    filter.Q.setValueAtTime(1, now);
+    
+    // Add a low rumble with oscillator
+    const rumble = ctx.createOscillator();
+    rumble.type = 'sine';
+    rumble.frequency.setValueAtTime(60, now);
+    rumble.frequency.exponentialRampToValueAtTime(30, now + 0.25);
+    
+    const rumbleGain = ctx.createGain();
+    rumble.connect(rumbleGain);
+    rumbleGain.connect(ctx.destination);
+    
+    rumbleGain.gain.setValueAtTime(0, now);
+    rumbleGain.gain.linearRampToValueAtTime(0.15, now + 0.02);
+    rumbleGain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+    
+    // Main explosion gain
+    const gainNode = ctx.createGain();
+    
+    noise.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    // More dramatic volume with quick spike
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.25, now + 0.01);
+    gainNode.gain.linearRampToValueAtTime(0.15, now + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+    
+    noise.start(now);
+    noise.stop(now + 0.4);
+    rumble.start(now);
+    rumble.stop(now + 0.35);
+}
+
 // Theme Toggle System
 const themeToggle = document.getElementById('theme-toggle-checkbox');
 
@@ -547,6 +606,7 @@ document.getElementById('decrement-b').addEventListener('click', () => {
 });
 
 document.getElementById('reset-btn').addEventListener('click', () => {
+    playBigExplosion();
     scoreA.textContent = 0;
     scoreB.textContent = 0;
     saveScores();
