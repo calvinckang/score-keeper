@@ -3,6 +3,106 @@ const scoreB = document.getElementById('score-b');
 const STORAGE_KEY = 'scoreKeeper';
 const THEME_STORAGE_KEY = 'scoreKeeperTheme';
 
+// Audio System - Lightweight Web Audio API
+let audioContext = null;
+
+function getAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioContext;
+}
+
+// Bird chirp sound for + button (more realistic bird tweet)
+function playChirp() {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    // Create main chirp oscillator
+    const osc1 = ctx.createOscillator();
+    const osc2 = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    const gain2 = ctx.createGain();
+    
+    osc1.connect(gainNode);
+    osc2.connect(gain2);
+    gainNode.connect(ctx.destination);
+    gain2.connect(ctx.destination);
+    
+    // Main oscillator: rapid pitch changes for "chirp-chirp" effect
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(2000, now);
+    osc1.frequency.exponentialRampToValueAtTime(3200, now + 0.03); // Quick rise
+    osc1.frequency.exponentialRampToValueAtTime(2800, now + 0.05); // Small dip
+    osc1.frequency.exponentialRampToValueAtTime(3500, now + 0.08); // Second peak
+    osc1.frequency.exponentialRampToValueAtTime(2500, now + 0.12); // Fall off
+    
+    // Harmonic oscillator for richness (octave higher, quieter)
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(4000, now);
+    osc2.frequency.exponentialRampToValueAtTime(6400, now + 0.03);
+    osc2.frequency.exponentialRampToValueAtTime(5600, now + 0.05);
+    osc2.frequency.exponentialRampToValueAtTime(7000, now + 0.08);
+    osc2.frequency.exponentialRampToValueAtTime(5000, now + 0.12);
+    
+    // Main chirp envelope - quick attack and decay
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.12, now + 0.005);
+    gainNode.gain.linearRampToValueAtTime(0.10, now + 0.03);
+    gainNode.gain.linearRampToValueAtTime(0.08, now + 0.05);
+    gainNode.gain.linearRampToValueAtTime(0.09, now + 0.08);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.13);
+    
+    // Harmonic envelope (quieter)
+    gain2.gain.setValueAtTime(0, now);
+    gain2.gain.linearRampToValueAtTime(0.04, now + 0.005);
+    gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.13);
+    
+    osc1.start(now);
+    osc1.stop(now + 0.13);
+    osc2.start(now);
+    osc2.stop(now + 0.13);
+}
+
+// Subtle explosion sound for - button
+function playExplosion() {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    // Create noise buffer for explosion effect
+    const bufferSize = ctx.sampleRate * 0.15; // 150ms
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    
+    // Generate white noise with decay
+    for (let i = 0; i < bufferSize; i++) {
+        const decay = 1 - (i / bufferSize);
+        data[i] = (Math.random() * 2 - 1) * decay;
+    }
+    
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    
+    // Add low-pass filter for more muffled, subtle effect
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(800, now);
+    filter.frequency.exponentialRampToValueAtTime(100, now + 0.1);
+    
+    const gainNode = ctx.createGain();
+    
+    noise.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    // Very subtle volume
+    gainNode.gain.setValueAtTime(0.1, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+    
+    noise.start(now);
+    noise.stop(now + 0.15);
+}
+
 // Theme Toggle System
 const themeToggle = document.getElementById('theme-toggle-checkbox');
 
@@ -413,6 +513,7 @@ function updateBirds() {
 updateBirds();
 
 document.getElementById('increment-a').addEventListener('click', () => {
+    playChirp();
     scoreA.textContent = parseInt(scoreA.textContent) + 1;
     saveScores();
     updateBirds();
@@ -421,6 +522,7 @@ document.getElementById('increment-a').addEventListener('click', () => {
 document.getElementById('decrement-a').addEventListener('click', () => {
     const current = parseInt(scoreA.textContent);
     if (current > 0) {
+        playExplosion();
         scoreA.textContent = current - 1;
         saveScores();
         updateBirds();
@@ -428,6 +530,7 @@ document.getElementById('decrement-a').addEventListener('click', () => {
 });
 
 document.getElementById('increment-b').addEventListener('click', () => {
+    playChirp();
     scoreB.textContent = parseInt(scoreB.textContent) + 1;
     saveScores();
     updateBirds();
@@ -436,6 +539,7 @@ document.getElementById('increment-b').addEventListener('click', () => {
 document.getElementById('decrement-b').addEventListener('click', () => {
     const current = parseInt(scoreB.textContent);
     if (current > 0) {
+        playExplosion();
         scoreB.textContent = current - 1;
         saveScores();
         updateBirds();
