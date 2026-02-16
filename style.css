@@ -147,8 +147,8 @@ body.dark-mode .page-title {
 
 body.dark-mode section {
     background: linear-gradient(145deg, rgba(15, 39, 68, 0.6) 0%, rgba(26, 58, 92, 0.7) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 2px solid rgba(100, 181, 246, 0.1);
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.3),
@@ -369,12 +369,11 @@ body.dark-mode .cloud {
 
 section {
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.8) 100%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 2px solid rgba(255, 255, 255, 0.6);
     padding: var(--spacing-xl) var(--spacing-2xl);
-    /* iOS Squircle Border Radius - smooth continuous curve */
-    border-radius: 18% / 20%;
+    border-radius: var(--radius-lg);
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.08),
         0 8px 16px rgba(0, 0, 0, 0.12),
@@ -383,12 +382,14 @@ section {
     text-align: center;
     min-width: 180px;
     position: relative;
-    /* 3D Tilt Effect Setup */
+    /* 3D Tilt Effect Setup - Optimized for GPU */
     transform-style: preserve-3d;
     perspective: 1000px;
-    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
-    transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+    transform: translate3d(0, 0, 0) perspective(1000px) rotateX(0deg) rotateY(0deg);
+    transition: box-shadow 0.3s ease;
     will-change: transform;
+    /* Force GPU acceleration */
+    backface-visibility: hidden;
 }
 
 section:hover {
@@ -440,16 +441,19 @@ button {
     border-radius: var(--radius-sm);
     cursor: pointer;
     color: var(--color-text-inverse);
-    transition: all var(--transition-default);
+    transition: box-shadow var(--transition-default), filter var(--transition-default);
     position: relative;
     box-shadow: 
         var(--shadow-sm),
         var(--shadow-inset-highlight),
         inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+    /* GPU acceleration */
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
 button:active {
-    transform: translateY(2px);
+    transform: translate3d(0, 2px, 0);
     box-shadow: 
         var(--shadow-active),
         var(--shadow-inset);
@@ -751,9 +755,11 @@ button:active {
     width: var(--size-bird-width);
     height: var(--size-bird-height);
     z-index: 0;
-    /* 3D Transform setup */
+    /* 3D Transform setup - Optimized for GPU */
     transform-style: preserve-3d;
     perspective: 1000px;
+    will-change: transform, left, top;
+    backface-visibility: hidden;
 }
 
 .bird svg {
@@ -854,6 +860,8 @@ button:active {
     position: absolute;
     opacity: var(--opacity-cloud);
     animation: floatCloud var(--cloud-duration) linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .cloud svg {
@@ -863,10 +871,10 @@ button:active {
 
 @keyframes floatCloud {
     from {
-        left: -200px;
+        transform: translateX(-200px);
     }
     to {
-        left: 100%;
+        transform: translateX(calc(100vw + 200px));
     }
 }
 
@@ -879,6 +887,7 @@ button:active {
     width: var(--size-explosion);
     height: var(--size-explosion);
     pointer-events: none;
+    will-change: transform;
 }
 
 .explosion-particle {
@@ -887,6 +896,8 @@ button:active {
     height: var(--size-particle);
     border-radius: var(--radius-circle);
     background: var(--color-explosion);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 .feather {
@@ -895,15 +906,17 @@ button:active {
     height: var(--size-feather-height);
     pointer-events: none;
     animation: floatFeather 2s ease-out forwards;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 @keyframes floatFeather {
     0% {
-        transform: translate(0, 0) rotate(0deg);
+        transform: translate3d(0, 0, 0) rotate(0deg);
         opacity: 1;
     }
     100% {
-        transform: translate(var(--feather-x), 100px) rotate(360deg);
+        transform: translate3d(var(--feather-x), 100px, 0) rotate(360deg);
         opacity: 0;
     }
 }

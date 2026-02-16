@@ -389,21 +389,24 @@ function updateBirds() {
     const blueCount = parseInt(scoreA.textContent);
     const redCount = parseInt(scoreB.textContent);
     
-    // Add or remove blue birds
-    while (blueBirds.length < blueCount) {
-        blueBirds.push(createBird(true));
-    }
-    while (blueBirds.length > blueCount) {
-        removeBird(true);
-    }
-    
-    // Add or remove red birds
-    while (redBirds.length < redCount) {
-        redBirds.push(createBird(false));
-    }
-    while (redBirds.length > redCount) {
-        removeBird(false);
-    }
+    // Use requestAnimationFrame for smoother updates
+    requestAnimationFrame(() => {
+        // Add or remove blue birds
+        while (blueBirds.length < blueCount) {
+            blueBirds.push(createBird(true));
+        }
+        while (blueBirds.length > blueCount) {
+            removeBird(true);
+        }
+        
+        // Add or remove red birds
+        while (redBirds.length < redCount) {
+            redBirds.push(createBird(false));
+        }
+        while (redBirds.length > redCount) {
+            removeBird(false);
+        }
+    });
 }
 
 // Initialize birds based on loaded scores
@@ -453,17 +456,26 @@ function createCloud() {
     
     const cloudSVG = `
         <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
-            <!-- Bottom layer -->
-            <ellipse cx="45" cy="55" rx="32" ry="22" fill="white"/>
-            <ellipse cx="75" cy="50" rx="35" ry="28" fill="white"/>
-            <ellipse cx="105" cy="52" rx="38" ry="26" fill="white"/>
-            <ellipse cx="135" cy="50" rx="36" ry="28" fill="white"/>
-            <ellipse cx="165" cy="55" rx="30" ry="22" fill="white"/>
-            <!-- Top layer for fluffiness -->
-            <ellipse cx="60" cy="38" rx="28" ry="24" fill="white"/>
-            <ellipse cx="90" cy="35" rx="32" ry="28" fill="white"/>
-            <ellipse cx="120" cy="36" rx="30" ry="26" fill="white"/>
-            <ellipse cx="145" cy="40" rx="26" ry="22" fill="white"/>
+            <defs>
+                <!-- Linear gradient for transparency at bottom -->
+                <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:white;stop-opacity:1" />
+                    <stop offset="60%" style="stop-color:white;stop-opacity:0.95" />
+                    <stop offset="85%" style="stop-color:white;stop-opacity:0.6" />
+                    <stop offset="100%" style="stop-color:white;stop-opacity:0.2" />
+                </linearGradient>
+            </defs>
+            <!-- Bottom layer with gradient -->
+            <ellipse cx="45" cy="55" rx="32" ry="22" fill="url(#cloudGradient)"/>
+            <ellipse cx="75" cy="50" rx="35" ry="28" fill="url(#cloudGradient)"/>
+            <ellipse cx="105" cy="52" rx="38" ry="26" fill="url(#cloudGradient)"/>
+            <ellipse cx="135" cy="50" rx="36" ry="28" fill="url(#cloudGradient)"/>
+            <ellipse cx="165" cy="55" rx="30" ry="22" fill="url(#cloudGradient)"/>
+            <!-- Top layer for fluffiness with gradient -->
+            <ellipse cx="60" cy="38" rx="28" ry="24" fill="url(#cloudGradient)"/>
+            <ellipse cx="90" cy="35" rx="32" ry="28" fill="url(#cloudGradient)"/>
+            <ellipse cx="120" cy="36" rx="30" ry="26" fill="url(#cloudGradient)"/>
+            <ellipse cx="145" cy="40" rx="26" ry="22" fill="url(#cloudGradient)"/>
         </svg>
     `;
     
@@ -482,43 +494,69 @@ function createCloud() {
     const duration = 40 + Math.random() * 40;
     cloud.style.setProperty('--cloud-duration', duration + 's');
     
-    // Random start position
-    cloud.style.left = (Math.random() * 100) + '%';
+    // Random start position (use left: 0 and let transform handle animation)
+    cloud.style.left = '0';
+    cloud.style.transform = `translateX(${Math.random() * 100}vw)`;
     
     cloudsContainer.appendChild(cloud);
 }
 
-// Create initial clouds
-for (let i = 0; i < 6; i++) {
+// Create initial clouds (reduced from 6 to 4 for better performance)
+for (let i = 0; i < 4; i++) {
     createCloud();
 }
 
-// 3D Tilt Effect for Section Cards
+// Performance optimization: Throttle function
+function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// 3D Tilt Effect for Section Cards (Optimized)
 function init3DTilt() {
     const sections = document.querySelectorAll('section');
     
     sections.forEach(section => {
-        section.addEventListener('mousemove', (e) => {
-            const rect = section.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+        let rafId = null;
+        
+        const handleMouseMove = throttle((e) => {
+            // Cancel any pending animation frame
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
             
-            // Calculate percentage position (0 to 1)
-            const xPercent = x / rect.width;
-            const yPercent = y / rect.height;
-            
-            // Calculate tilt angles (max 15 degrees)
-            // Center is 0 degrees, edges are ±15 degrees
-            const tiltX = (yPercent - 0.5) * -30; // Negative for natural tilt
-            const tiltY = (xPercent - 0.5) * 30;
-            
-            // Apply transform
-            section.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
+            rafId = requestAnimationFrame(() => {
+                const rect = section.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Calculate percentage position (0 to 1)
+                const xPercent = x / rect.width;
+                const yPercent = y / rect.height;
+                
+                // Calculate tilt angles (reduced from 30 to 20 for smoother effect)
+                const tiltX = (yPercent - 0.5) * -20;
+                const tiltY = (xPercent - 0.5) * 20;
+                
+                // Apply transform with GPU acceleration
+                section.style.transform = `translate3d(0, 0, 0) perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+        }, 16); // ~60fps throttle
+        
+        section.addEventListener('mousemove', handleMouseMove);
         
         section.addEventListener('mouseleave', () => {
-            // Reset to neutral position
-            section.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+            // Reset to neutral position with GPU acceleration
+            section.style.transform = 'translate3d(0, 0, 0) perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
         });
     });
 }
