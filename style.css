@@ -728,11 +728,15 @@ button:active {
     width: var(--size-bird-width);
     height: var(--size-bird-height);
     z-index: 0;
+    /* 3D Transform setup */
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 .bird svg {
     width: 100%;
     height: 100%;
+    transform-style: preserve-3d;
 }
 
 .bird.flap-down .wing {
@@ -745,24 +749,25 @@ button:active {
 
 @keyframes flapDown {
     0%, 100% {
-        transform: rotateX(0deg);
+        transform: rotateX(0deg) translateZ(0px);
     }
     50% {
-        transform: rotateX(-45deg);
+        transform: rotateX(-55deg) translateZ(3px);
     }
 }
 
 @keyframes flapUp {
     0%, 100% {
-        transform: rotateX(0deg);
+        transform: rotateX(0deg) translateZ(0px);
     }
     50% {
-        transform: rotateX(45deg);
+        transform: rotateX(55deg) translateZ(3px);
     }
 }
 
 .bird.flying-right {
     animation: flyRight var(--fly-duration) linear forwards;
+    /* Add subtle 3D rotation during flight */
 }
 
 .bird.flying-left {
@@ -774,14 +779,23 @@ button:active {
     0% {
         left: -60px;
         top: var(--start-top);
+        transform: rotateY(5deg) rotateZ(-2deg);
+    }
+    25% {
+        transform: rotateY(-3deg) rotateZ(1deg);
     }
     50% {
         left: 50%;
         top: var(--mid-top);
+        transform: rotateY(0deg) rotateZ(0deg);
+    }
+    75% {
+        transform: rotateY(3deg) rotateZ(-1deg);
     }
     100% {
         left: 100%;
         top: var(--end-top);
+        transform: rotateY(-5deg) rotateZ(2deg);
     }
 }
 
@@ -789,14 +803,23 @@ button:active {
     0% {
         left: 100%;
         top: var(--start-top);
+        transform: scaleX(-1) rotateY(5deg) rotateZ(-2deg);
+    }
+    25% {
+        transform: scaleX(-1) rotateY(-3deg) rotateZ(1deg);
     }
     50% {
         left: 50%;
         top: var(--mid-top);
+        transform: scaleX(-1) rotateY(0deg) rotateZ(0deg);
+    }
+    75% {
+        transform: scaleX(-1) rotateY(3deg) rotateZ(-1deg);
     }
     100% {
         left: -60px;
         top: var(--end-top);
+        transform: scaleX(-1) rotateY(-5deg) rotateZ(2deg);
     }
 }
 

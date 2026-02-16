@@ -59,25 +59,69 @@ let redBirds = [];
 function createRedBirdSVG() {
     return `
         <svg viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg">
-            <!-- Body -->
-            <ellipse cx="20" cy="15" rx="10" ry="8" fill="#e63946"/>
+            <defs>
+                <!-- 3D Gradients for body -->
+                <radialGradient id="redBodyGrad" cx="35%" cy="30%">
+                    <stop offset="0%" style="stop-color:#ff6b77;stop-opacity:1" />
+                    <stop offset="40%" style="stop-color:#e63946;stop-opacity:1" />
+                    <stop offset="85%" style="stop-color:#c1121f;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#a01018;stop-opacity:1" />
+                </radialGradient>
+                
+                <!-- 3D Gradients for head -->
+                <radialGradient id="redHeadGrad" cx="40%" cy="25%">
+                    <stop offset="0%" style="stop-color:#ff7882;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#e63946;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#b81825;stop-opacity:1" />
+                </radialGradient>
+                
+                <!-- 3D Wing gradient -->
+                <linearGradient id="redWingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#d62838;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#c1121f;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#8b0e17;stop-opacity:1" />
+                </linearGradient>
+                
+                <!-- Beak gradient -->
+                <linearGradient id="redBeakGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#cc7700;stop-opacity:1" />
+                </linearGradient>
+            </defs>
             
-            <!-- Head -->
-            <circle cx="28" cy="12" r="6" fill="#e63946"/>
+            <!-- Body with 3D gradient -->
+            <ellipse cx="20" cy="15" rx="10" ry="8" fill="url(#redBodyGrad)"/>
             
-            <!-- Beak -->
-            <path d="M 33 12 L 38 11 L 33 13 Z" fill="#d62828"/>
+            <!-- Body highlight -->
+            <ellipse cx="18" cy="13" rx="4" ry="3" fill="#ff8b94" opacity="0.5"/>
             
-            <!-- Eye -->
-            <circle cx="30" cy="11" r="1.5" fill="#1a1a1a"/>
+            <!-- Head with 3D gradient -->
+            <circle cx="28" cy="12" r="6" fill="url(#redHeadGrad)"/>
             
-            <!-- Wings (animated) -->
+            <!-- Head highlight -->
+            <circle cx="26.5" cy="10.5" r="2.5" fill="#ff9aa1" opacity="0.6"/>
+            
+            <!-- Beak with gradient -->
+            <path d="M 33 12 L 38 11 L 38 12.5 L 33 13 Z" fill="url(#redBeakGrad)"/>
+            <path d="M 33 12 L 38 11 L 35.5 11.5 Z" fill="#ffb84d" opacity="0.7"/>
+            
+            <!-- Eye white -->
+            <circle cx="30" cy="11" r="2" fill="#ffffff"/>
+            <!-- Eye pupil -->
+            <circle cx="30.5" cy="11" r="1.5" fill="#1a1a1a"/>
+            <!-- Eye shine -->
+            <circle cx="30.8" cy="10.5" r="0.6" fill="#ffffff"/>
+            
+            <!-- Wings (animated) with 3D effect -->
             <g class="wing">
-                <ellipse cx="15" cy="15" rx="8" ry="4" fill="#c1121f" transform-origin="15 15"/>
+                <ellipse cx="15" cy="15" rx="8" ry="4" fill="url(#redWingGrad)" transform-origin="15 15"/>
+                <ellipse cx="14" cy="14" rx="5" ry="2" fill="#e63946" opacity="0.4" transform-origin="15 15"/>
             </g>
             
-            <!-- Tail -->
-            <path d="M 10 15 L 5 12 L 8 15 L 5 18 Z" fill="#c1121f"/>
+            <!-- Tail with layered effect -->
+            <path d="M 10 15 L 5 12 L 8 15 L 5 18 Z" fill="#8b0e17"/>
+            <path d="M 10 15 L 6 13 L 8 15 L 6 17 Z" fill="#c1121f"/>
+            <path d="M 10 15 L 7 14 L 8.5 15 L 7 16 Z" fill="#d62838" opacity="0.6"/>
         </svg>
     `;
 }
@@ -86,25 +130,69 @@ function createRedBirdSVG() {
 function createBlueBirdSVG() {
     return `
         <svg viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg">
-            <!-- Body (slightly more elongated) -->
-            <ellipse cx="19" cy="15" rx="11" ry="7" fill="#1e88e5"/>
+            <defs>
+                <!-- 3D Gradients for body -->
+                <radialGradient id="blueBodyGrad" cx="35%" cy="30%">
+                    <stop offset="0%" style="stop-color:#64b5f6;stop-opacity:1" />
+                    <stop offset="40%" style="stop-color:#1e88e5;stop-opacity:1" />
+                    <stop offset="85%" style="stop-color:#1565c0;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#0d47a1;stop-opacity:1" />
+                </radialGradient>
+                
+                <!-- 3D Gradients for head -->
+                <radialGradient id="blueHeadGrad" cx="40%" cy="25%">
+                    <stop offset="0%" style="stop-color:#7fc3ff;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#1e88e5;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#0d5ba8;stop-opacity:1" />
+                </radialGradient>
+                
+                <!-- 3D Wing gradient -->
+                <linearGradient id="blueWingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#2196f3;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#1565c0;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#0a3d7a;stop-opacity:1" />
+                </linearGradient>
+                
+                <!-- Beak gradient -->
+                <linearGradient id="blueBeakGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#cc7700;stop-opacity:1" />
+                </linearGradient>
+            </defs>
             
-            <!-- Head (slightly smaller) -->
-            <circle cx="27" cy="13" r="5.5" fill="#1e88e5"/>
+            <!-- Body with 3D gradient (slightly more elongated) -->
+            <ellipse cx="19" cy="15" rx="11" ry="7" fill="url(#blueBodyGrad)"/>
             
-            <!-- Beak (pointer) -->
-            <path d="M 31.5 13 L 37 12 L 31.5 14 Z" fill="#1565c0"/>
+            <!-- Body highlight -->
+            <ellipse cx="17" cy="13" rx="5" ry="3" fill="#90caf9" opacity="0.5"/>
             
-            <!-- Eye -->
-            <circle cx="29" cy="12" r="1.5" fill="#1a1a1a"/>
+            <!-- Head with 3D gradient (slightly smaller) -->
+            <circle cx="27" cy="13" r="5.5" fill="url(#blueHeadGrad)"/>
             
-            <!-- Wings (animated, more triangular) -->
+            <!-- Head highlight -->
+            <circle cx="25.5" cy="11.5" r="2.2" fill="#a5d6ff" opacity="0.6"/>
+            
+            <!-- Beak with gradient (pointer) -->
+            <path d="M 31.5 13 L 37 12 L 37 13.5 L 31.5 14 Z" fill="url(#blueBeakGrad)"/>
+            <path d="M 31.5 13 L 37 12 L 34.2 12.3 Z" fill="#ffb84d" opacity="0.7"/>
+            
+            <!-- Eye white -->
+            <circle cx="29" cy="12" r="2" fill="#ffffff"/>
+            <!-- Eye pupil -->
+            <circle cx="29.5" cy="12" r="1.5" fill="#1a1a1a"/>
+            <!-- Eye shine -->
+            <circle cx="29.8" cy="11.5" r="0.6" fill="#ffffff"/>
+            
+            <!-- Wings (animated, more triangular) with 3D effect -->
             <g class="wing">
-                <ellipse cx="14" cy="15" rx="7" ry="5" fill="#1565c0" transform-origin="14 15"/>
+                <ellipse cx="14" cy="15" rx="7" ry="5" fill="url(#blueWingGrad)" transform-origin="14 15"/>
+                <ellipse cx="13" cy="14" rx="4.5" ry="2.5" fill="#2196f3" opacity="0.4" transform-origin="14 15"/>
             </g>
             
-            <!-- Tail (more pointed) -->
-            <path d="M 9 15 L 4 13 L 7 15 L 4 17 Z" fill="#1565c0"/>
+            <!-- Tail with layered effect (more pointed) -->
+            <path d="M 9 15 L 4 13 L 7 15 L 4 17 Z" fill="#0a3d7a"/>
+            <path d="M 9 15 L 5 13.5 L 7 15 L 5 16.5 Z" fill="#1565c0"/>
+            <path d="M 9 15 L 6 14 L 7.5 15 L 6 16 Z" fill="#2196f3" opacity="0.6"/>
         </svg>
     `;
 }
